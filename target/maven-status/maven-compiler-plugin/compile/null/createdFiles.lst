@@ -1,0 +1,14 @@
+com/so/telas/SJFrun.class
+com/so/Resultados.class
+com/so/telas/showResult.class
+com/so/algoritmos/Processo.class
+com/so/telas/afterResult.class
+module-info.class
+com/so/telas/MainMenu.class
+com/so/telas/sjfConfig.class
+com/so/SystemInfo.class
+com/so/telas/RRConfig.class
+com/so/algoritmos/SJF.class
+com/so/App.class
+com/so/telas/RRrun.class
+com/so/algoritmos/RoundRobin.class
