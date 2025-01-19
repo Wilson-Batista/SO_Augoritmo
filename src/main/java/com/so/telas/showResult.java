@@ -74,7 +74,7 @@ public class showResult {
                 espera += processo.getEspera();
             }
             espera = espera / sjf.getProcessosFinalizados().size();
-            turnaround = turnaround / sjf.getProcessosFinalizados().size();
+            turnaround = turnaround / sjf.getProcessosFinalizados().size(); //<<<<=====
             this.resultTable.appendText("Nome: SJF | Num. Processadores: " + sjf.getNumProcessadores()
                     + " | Num. Processos Finalizados: " + sjf.getProcessosFinalizados().size() + " | Turnaround medio: "
                     + turnaround + " | Tempo de espera medio: " + espera + "\n");
@@ -89,7 +89,8 @@ public class showResult {
                 espera += processo.getEspera();
             }
             espera = espera / rr.getProcessosFinalizados().size();
-            turnaround = turnaround / rr.getProcessosFinalizados().size();
+            turnaround = turnaround / rr.getProcessosFinalizados().size();//<<<<<=====
+                        
             this.resultTable.appendText("Nome: Round Robin | Num. Processadores: " + rr.getNumProcessadores()
                     + " | Num. Processos Finalizados: " + rr.getProcessosFinalizados().size() + " | Turnaround medio: "
                     + turnaround + " | Tempo de espera medio: " + espera + "\n");

@@ -8,7 +8,6 @@ import java.util.Queue;
 import com.so.Resultados;
 import com.so.algoritmos.Processo;
 import com.so.algoritmos.RoundRobin;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -79,10 +78,8 @@ public class RRrun {
         this.processQueue.setText("Nome | Tempo Restante\n");
         Map<Processo, Integer> processadores = this.roundRobin.getProcessadores();
         Queue<Processo> processos = this.roundRobin.getProcessos();
-        for (Processo processo : processadores.keySet()) {
-            this.inProcess.appendText(processo.getNome() + " | " + processo.getTempoRestante() + "\n");
-        }
         for (Processo processo : processos) {
+            this.inProcess.appendText(processo.getNome() + " | " + processo.getTempoRestante() + "\n");
             this.processQueue.appendText(processo.getNome() + " | " + processo.getTempoRestante() + "\n");
         }
         this.timerValue.setText(Integer.toString(this.roundRobin.getTimer()));

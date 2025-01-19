@@ -30,38 +30,55 @@ public class RoundRobin {
 
     // Adiciona um processo na fila de processos
     public void adicionarProcesso(String nomeProcesso, int tempoExecucao) {
-        this.processos.add(new Processo(nomeProcesso, tempoExecucao, this.timer));
+        //this.processos.add(new Processo(nomeProcesso, tempoExecucao, this.timer));
+        if (tempoExecucao <= 0) {
+            throw new IllegalArgumentException("Tempo de execução deve ser maior que 0");
+        }
+        Processo novoProcesso = new Processo(nomeProcesso, tempoExecucao, this.timer);
+        this.processos.add(novoProcesso);
     }
 
     // Avança o timer e executa os processos
     public void avancarTimer() {
         this.timer += 1;
-
-        // Adiciona processos aos processadores
-        while (processos.size() > 0 && processadores.size() < this.numProcessadores) {
+        
+        // Adiciona processos aos processadores disponíveis
+        while (!processos.isEmpty() && processadores.size() < this.numProcessadores) {
             Processo processo = this.processos.poll();
-            this.processadores.put(processo, this.quantum);
+            if (processo != null) {
+                this.processadores.put(processo, this.quantum);
+            }
         }
 
-        // Executa os processos
-        for (Processo processo : processadores.keySet()) {
-            processo.tempoRestante -= 1;
-            this.processadores.put(processo, this.processadores.get(processo) - 1);
+        // Se não houver processos em execução, apenas avança o timer
+        if (processadores.isEmpty()) {
+            return;
         }
 
         List<Processo> processosEncerrados = new ArrayList<>();
         List<Processo> processosQuantum = new ArrayList<>();
 
-        // Verifica se os processos terminaram
-        for (Processo processo : processadores.keySet()) {
-            if (processo.tempoRestante == 0) {
-                processo.encerrarProcesso(this.timer);
-                processosEncerrados.add(processo);
-            } else if (processadores.get(processo) == 0) {
-                processosQuantum.add(processo);
+        // Executa os processos e atualiza seus estados
+        for (Map.Entry<Processo, Integer> entry : new ArrayList<>(processadores.entrySet())) {
+            Processo processo = entry.getKey();
+            int quantumRestante = entry.getValue();
+
+            if (processo.tempoRestante > 0) {
+                processo.tempoRestante--;
+                processadores.put(processo, quantumRestante - 1);
+
+                // Verifica se o processo terminou
+                if (processo.tempoRestante == 0) {
+                    processo.encerrarProcesso(this.timer);
+                    processosEncerrados.add(processo);
+                }
+                // Verifica se o quantum acabou
+                else if (quantumRestante - 1 <= 0) {
+                    processosQuantum.add(processo);
+                }
             }
         }
-
+        
         // Remove os processos finalizados
         for (Processo processo : processosEncerrados) {
             this.processadores.remove(processo);
